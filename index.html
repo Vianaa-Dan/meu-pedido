@@ -17,8 +17,22 @@
             overflow: hidden;
             text-align: center;
         }
-        h1 { color: #590d22; font-size: 28px; padding: 20px; font-weight: bold; z-index: 2; }
-        .buttons { position: relative; width: 100%; height: 300px; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+        h1 { 
+            color: #590d22; 
+            font-size: 28px; 
+            padding: 20px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        .buttons { 
+            position: relative; 
+            width: 100%; 
+            height: 200px; /* Altura reduzida para acomodar o vídeo */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
         button {
             padding: 15px 35px;
             border: 3px solid #ffb3c1;
@@ -31,10 +45,23 @@
             box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
             touch-action: manipulation;
         }
-        #btn-sim { margin-bottom: 50px; z-index: 3; }
-        #btn-nao { position: absolute; top: 120px; font-size: 16px; transition: 0.1s ease-out; z-index: 4; }
+        #btn-sim { margin-bottom: 20px; z-index: 3; }
+        #btn-nao { position: absolute; top: 80px; font-size: 16px; transition: 0.1s ease-out; z-index: 4; }
         .heart { position: fixed; top: -1vh; font-size: 2rem; animation: fall 3s linear forwards; z-index: 1; }
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
+        
+        /* Estilo para o container do vídeo */
+        .video-container {
+            width: 80%; /* Largura média */
+            max-width: 500px; /* Largura máxima */
+            margin-top: 20px; /* Espaço acima do vídeo */
+            z-index: 2;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px; /* Bordas arredondadas para o vídeo */
+        }
     </style>
 </head>
 <body>
@@ -44,6 +71,13 @@
     <div class="buttons" id="container-botoes">
         <button id="btn-sim" onclick="aceitou()">Sim</button>
         <button id="btn-nao" onmouseover="foge()" ontouchstart="foge()">Não</button>
+    </div>
+
+    <div class="video-container">
+        <video controls autoplay loop muted>
+            <source src="image_0.png" type="video/mp4">
+            Seu navegador não suporta a tag de vídeo.
+        </video>
     </div>
 
     <div id="player" style="position: absolute; left: -1000px; top: 0; width: 1px; height: 1px;"></div>
@@ -58,7 +92,13 @@
                 height: '1',
                 width: '1',
                 videoId: '6c0LA4Nb1vY',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'modestbranding': 1, 'rel': 0, 'playsinline': 1 },
+                playerVars: { 
+                    'autoplay': 0, 
+                    'controls': 0, 
+                    'modestbranding': 1, 
+                    'rel': 0,
+                    'playsinline': 1 
+                },
                 events: { 'onReady': function(event) { event.target.setVolume(100); } }
             });
         }
@@ -107,12 +147,10 @@
             const widthLimit = window.innerWidth - btnNao.offsetWidth;
             const heightLimit = window.innerHeight - btnNao.offsetHeight;
 
-            // Loop para garantir que a nova posição não sobreponha o botão Sim
             while (overlap) {
                 newX = Math.random() * (widthLimit - 40) + 20;
                 newY = Math.random() * (heightLimit - 40) + 20;
 
-                // Verifica se a nova posição está fora da área do botão Sim (com margem de 30px)
                 const margin = 30;
                 if (
                     newX + btnNao.offsetWidth + margin < rectSim.left ||
@@ -131,6 +169,3 @@
     </script>
 </body>
 </html>
-</html>
-
-
