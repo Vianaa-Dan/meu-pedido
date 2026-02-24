@@ -44,24 +44,28 @@
             cursor: pointer;
             box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
             touch-action: manipulation;
-            transition: transform 0.1s;
         }
-        #btn-sim { margin-bottom: 30px; }
-        #btn-nao { position: absolute; font-size: 16px; transition: 0.2s ease-out; }
+        #btn-sim { 
+            margin-bottom: 50px; /* Aumentei o espaço */
+            z-index: 3;
+        }
+        #btn-nao { 
+            position: absolute; 
+            top: 120px; /* Posição inicial fixa abaixo do Sim */
+            font-size: 16px; 
+            transition: 0.1s ease-out; 
+            z-index: 4;
+        }
 
-        /* Estilo para os corações caindo */
         .heart {
             position: fixed;
             top: -1vh;
             font-size: 2rem;
-            transform: translateY(0);
             animation: fall 3s linear forwards;
             z-index: 1;
         }
         @keyframes fall {
-            to {
-                transform: translateY(105vh) rotate(360deg);
-            }
+            to { transform: translateY(105vh) rotate(360deg); }
         }
     </style>
 </head>
@@ -71,7 +75,7 @@
 
     <div class="buttons" id="container-botoes">
         <button id="btn-sim" onclick="aceitou()">Sim</button>
-        <button id="btn-nao" onmouseover="foge()" onclick="foge()" ontouchstart="foge()">Não</button>
+        <button id="btn-nao" onmouseover="foge()" ontouchstart="foge()">Não</button>
     </div>
 
     <div id="player" style="position: absolute; visibility: hidden; pointer-events: none;"></div>
@@ -99,11 +103,8 @@
 
         function aceitou() {
             tocarMusica();
-            // Muda o texto e esconde os botões
             document.getElementById('titulo').innerHTML = "Te amo bb! ❤️<br><span style='font-size: 20px;'>Agora você é Danielly Agatha da Costa de Almeida Viana ihihihi</span>";
             document.getElementById('container-botoes').style.display = 'none';
-            
-            // Inicia a chuva de corações
             setInterval(criarCoracao, 300);
         }
 
@@ -120,10 +121,16 @@
         function foge() {
             tocarMusica();
             const btn = document.getElementById('btn-nao');
+            
+            // Agora ele calcula a fuga baseada na tela inteira para garantir movimento
             const width = window.innerWidth - btn.offsetWidth;
             const height = window.innerHeight - btn.offsetHeight;
-            const newX = Math.random() * (width - 20) + 10;
-            const newY = Math.random() * (height - 20) + 10;
+
+            const newX = Math.random() * (width - 40) + 20;
+            const newY = Math.random() * (height - 40) + 20;
+
+            // Muda para posição fixa para mover livremente pela tela
+            btn.style.position = "fixed";
             btn.style.left = newX + 'px';
             btn.style.top = newY + 'px';
         }
