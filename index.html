@@ -58,22 +58,11 @@
                 height: '1',
                 width: '1',
                 videoId: '6c0LA4Nb1vY',
-                playerVars: { 
-                    'autoplay': 0, 
-                    'controls': 0, 
-                    'modestbranding': 1, 
-                    'rel': 0,
-                    'playsinline': 1 
-                },
-                events: {
-                    'onReady': function(event) {
-                        event.target.setVolume(100);
-                    }
-                }
+                playerVars: { 'autoplay': 0, 'controls': 0, 'modestbranding': 1, 'rel': 0, 'playsinline': 1 },
+                events: { 'onReady': function(event) { event.target.setVolume(100); } }
             });
         }
 
-        // Função para o botão "Não" (tenta tocar, mas não insiste se falhar)
         function tentarTocar() {
             if (player && !musicaIniciada) {
                 player.unMute();
@@ -82,7 +71,6 @@
             }
         }
 
-        // Função para o botão "Sim" (FORÇA o play porque o clique é um gesto garantido)
         function forcarTocar() {
             if (player) {
                 player.unMute();
@@ -91,7 +79,7 @@
         }
 
         function aceitou() {
-            forcarTocar(); // Garante que o som comece aqui
+            forcarTocar();
             document.getElementById('titulo').innerHTML = "Te amo bb! ❤️<br><span style='font-size: 20px;'>Agora você é Danielly Agatha da Costa de Almeida Viana ihihihi</span>";
             document.getElementById('container-botoes').style.display = 'none';
             setInterval(criarCoracao, 300);
@@ -108,17 +96,41 @@
         }
 
         function foge() {
-            tentarTocar(); // Tenta tocar quando ela tenta clicar no não
-            const btn = document.getElementById('btn-nao');
-            const width = window.innerWidth - btn.offsetWidth;
-            const height = window.innerHeight - btn.offsetHeight;
-            const newX = Math.random() * (width - 40) + 20;
-            const newY = Math.random() * (height - 40) + 20;
-            btn.style.position = "fixed";
-            btn.style.left = newX + 'px';
-            btn.style.top = newY + 'px';
+            tentarTocar();
+            const btnNao = document.getElementById('btn-nao');
+            const btnSim = document.getElementById('btn-sim');
+            const rectSim = btnSim.getBoundingClientRect();
+
+            let newX, newY;
+            let overlap = true;
+
+            const widthLimit = window.innerWidth - btnNao.offsetWidth;
+            const heightLimit = window.innerHeight - btnNao.offsetHeight;
+
+            // Loop para garantir que a nova posição não sobreponha o botão Sim
+            while (overlap) {
+                newX = Math.random() * (widthLimit - 40) + 20;
+                newY = Math.random() * (heightLimit - 40) + 20;
+
+                // Verifica se a nova posição está fora da área do botão Sim (com margem de 30px)
+                const margin = 30;
+                if (
+                    newX + btnNao.offsetWidth + margin < rectSim.left ||
+                    newX - margin > rectSim.right ||
+                    newY + btnNao.offsetHeight + margin < rectSim.top ||
+                    newY - margin > rectSim.bottom
+                ) {
+                    overlap = false;
+                }
+            }
+
+            btnNao.style.position = "fixed";
+            btnNao.style.left = newX + 'px';
+            btnNao.style.top = newY + 'px';
         }
     </script>
 </body>
 </html>
+</html>
+
 
