@@ -73,7 +73,8 @@
 
     <div class="video-container" id="video-div">
         <video id="meuVideo" autoplay loop muted playsinline>
-            <source src="ScreenRecording_02-24-2026 15-15-34_1.mov" type="video/quicktime">
+            <source src="video.mov" type="video/quicktime">
+            <source src="video.mov" type="video/mp4">
             Seu navegador não suporta vídeos.
         </video>
     </div>
@@ -85,12 +86,10 @@
         var player;
         var musicaIniciada = false;
 
-        // Força o vídeo a começar assim que a página carrega
+        // Comando para iniciar o vídeo assim que abrir a página
         window.addEventListener('load', function() {
             var video = document.getElementById('meuVideo');
-            video.play().catch(function(error) {
-                console.log("Autoplay bloqueado pelo navegador, aguardando interação.");
-            });
+            video.play().catch(function(e) { console.log("Autoplay bloqueado"); });
         });
 
         function onYouTubeIframeAPIReady() {
@@ -150,4 +149,3 @@
     </script>
 </body>
 </html>
-
