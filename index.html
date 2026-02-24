@@ -1,3 +1,9 @@
+Para garantir que o vídeo comece a rodar sozinho assim que o site abrir no telemóvel, o segredo é manter os atributos autoplay, muted e playsinline. Adicionei também um pequeno comando extra no JavaScript para "forçar" o início caso o sistema do telemóvel tente bloquear o início automático.
+
+Aqui está o código completo para o seu index.html:
+
+HTML
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -48,7 +54,6 @@
         #btn-sim { margin-bottom: 30px; }
         #btn-nao { position: absolute; top: 120px; font-size: 16px; transition: 0.1s ease-out; }
 
-        /* Estilo do Vídeo */
         .video-container {
             margin-top: 20px;
             z-index: 1;
@@ -73,9 +78,8 @@
     </div>
 
     <div class="video-container" id="video-div">
-        <video autoplay loop muted playsinline>
-            <source src="video.mov" type="video/quicktime">
-            <source src="video.mov" type="video/mp4">
+        <video id="meuVideo" autoplay loop muted playsinline>
+            <source src="ScreenRecording_02-24-2026 15-15-34_1.mov" type="video/quicktime">
             Seu navegador não suporta vídeos.
         </video>
     </div>
@@ -86,6 +90,14 @@
     <script>
         var player;
         var musicaIniciada = false;
+
+        // Força o vídeo a começar assim que a página carrega
+        window.addEventListener('load', function() {
+            var video = document.getElementById('meuVideo');
+            video.play().catch(function(error) {
+                console.log("Autoplay bloqueado pelo navegador, aguardando interação.");
+            });
+        });
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -144,5 +156,3 @@
     </script>
 </body>
 </html>
-
-
