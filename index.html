@@ -63,27 +63,35 @@
                     'controls': 0, 
                     'modestbranding': 1, 
                     'rel': 0,
-                    'playsinline': 1 // Importante para iPhone não abrir tela cheia
+                    'playsinline': 1 
                 },
                 events: {
                     'onReady': function(event) {
-                        event.target.setVolume(100); // Garante volume alto
+                        event.target.setVolume(100);
                     }
                 }
             });
         }
 
-        function tocarMusica() {
+        // Função para o botão "Não" (tenta tocar, mas não insiste se falhar)
+        function tentarTocar() {
             if (player && !musicaIniciada) {
-                // Alguns telemóveis precisam de um comando de 'unmute' explícito
                 player.unMute();
                 player.playVideo();
                 musicaIniciada = true;
             }
         }
 
+        // Função para o botão "Sim" (FORÇA o play porque o clique é um gesto garantido)
+        function forcarTocar() {
+            if (player) {
+                player.unMute();
+                player.playVideo();
+            }
+        }
+
         function aceitou() {
-            tocarMusica();
+            forcarTocar(); // Garante que o som comece aqui
             document.getElementById('titulo').innerHTML = "Te amo bb! ❤️<br><span style='font-size: 20px;'>Agora você é Danielly Agatha da Costa de Almeida Viana ihihihi</span>";
             document.getElementById('container-botoes').style.display = 'none';
             setInterval(criarCoracao, 300);
@@ -100,7 +108,7 @@
         }
 
         function foge() {
-            tocarMusica();
+            tentarTocar(); // Tenta tocar quando ela tenta clicar no não
             const btn = document.getElementById('btn-nao');
             const width = window.innerWidth - btn.offsetWidth;
             const height = window.innerHeight - btn.offsetHeight;
@@ -113,3 +121,4 @@
     </script>
 </body>
 </html>
+
